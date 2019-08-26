@@ -1,9 +1,11 @@
 import copy
 
+
 class Point(object):
-    def __init__(self,x,y):
-        self.x=x
-        self.y=y
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 
 def num_between(max_num, min_num, current):
     return current >= min_num and current <= max_num
@@ -159,10 +161,10 @@ class Chessman(object):
     def border_check(self, col_num, row_num):
         return num_between(self.__top, self.__bottom, row_num) and num_between(self.__right, self.__left, col_num)
 
-    def calc_moving_path(self, direction_chessman, direction_vertical_coordinate, 
-                        current_vertical_coordinate, direction_parallel_coordinate, direction, 
-                        border_vertical_coordinate, h_or_v, ignore_color=False):
-        if direction_chessman != None:
+    def calc_moving_path(self, direction_chessman, direction_vertical_coordinate,
+                         current_vertical_coordinate, direction_parallel_coordinate, direction,
+                         border_vertical_coordinate, h_or_v, ignore_color=False):
+        if direction_chessman is not None:
             if direction_chessman.is_red == self.is_red or ignore_color:
                 for i in range(direction_vertical_coordinate + direction, current_vertical_coordinate, direction):
                     self.__moving_list.append(

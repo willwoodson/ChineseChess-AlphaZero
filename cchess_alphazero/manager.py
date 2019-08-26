@@ -13,6 +13,7 @@ PIECE_STYLE_LIST = ['WOOD', 'POLISH', 'DELICATE']
 BG_STYLE_LIST = ['CANVAS', 'DROPS', 'GREEN', 'QIANHONG', 'SHEET', 'SKELETON', 'WHITE', 'WOOD']
 RANDOM_LIST = ['none', 'small', 'medium', 'large']
 
+
 def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("cmd", help="what to do", choices=CMD_LIST)
@@ -32,6 +33,7 @@ def create_parser():
     parser.add_argument("--elo", help="whether to compute elo score", action="store_true")
     return parser
 
+
 def setup(config: Config, args):
     config.opts.new = args.new
     if args.total_step is not None:
@@ -48,6 +50,7 @@ def setup(config: Config, args):
         setup_logger(config.resource.eval_log_path)
     elif args.cmd == 'sl':
         setup_logger(config.resource.sl_log_path)
+
 
 def start():
     parser = create_parser()
@@ -108,10 +111,9 @@ def start():
         else:
             from cchess_alphazero.worker import sl
             sl.start(config)
-        
+
     elif args.cmd == 'ob':
         from cchess_alphazero.play_games import ob_self_play
         pwhc = PlayWithHumanConfig()
         pwhc.update_play_config(config.play)
         ob_self_play.start(config, args.ucci, args.ai_move_first)
-        

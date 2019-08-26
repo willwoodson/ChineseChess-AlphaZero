@@ -7,6 +7,7 @@ from cchess_alphazero.lib.logger import getLogger
 
 logger = getLogger(__name__)
 
+
 class Chessboard(object):
 
     def __init__(self, name='000'):
@@ -154,8 +155,8 @@ class Chessboard(object):
         for chessman in self.__chessmans_hash.values():
             chessman.clear_moving_list()
 
-    def move_chessman(self, chessman, col_num, row_num, 
-                      is_record = False, old_x = 0, old_y = 0):
+    def move_chessman(self, chessman, col_num, row_num,
+                      is_record=False, old_x=0, old_y=0):
         if chessman.is_red == self.__is_red_turn:
             chessman_old = self.remove_chessman_target(col_num, row_num)
             self.add_chessman(chessman, col_num, row_num)
@@ -197,7 +198,6 @@ class Chessboard(object):
                     _legal_moves.append(self.move_to_str(x0, y0, point.x, point.y))
         return _legal_moves
 
-
     def is_end(self):
         red_king = self.get_chessman_by_name('red_king')
         black_king = self.get_chessman_by_name('black_king')
@@ -230,7 +230,6 @@ class Chessboard(object):
                         self.winner = Winner.black
                     break
         return self.winner != None
-
 
     def get_chessman(self, col_num, row_num):
         return self.__chessmans[col_num][row_num]
@@ -303,7 +302,7 @@ class Chessboard(object):
                 else:
                     count += 1
 
-    def print_to_cl(self, is_print = True):
+    def print_to_cl(self, is_print=True):
         screen = "\r\n"
         for i in range(9, -1, -1):
             for j in range(9):
@@ -349,8 +348,8 @@ class Chessboard(object):
             for j in range(10):
                 chess = self.chessmans[i][j]
                 if chess != None:
-                    if chess.position.x != self.chessmans_hash[chess.name].position.x or\
-                        chess.position.y != self.chessmans_hash[chess.name].position.y:
+                    if chess.position.x != self.chessmans_hash[chess.name].position.x or \
+                            chess.position.y != self.chessmans_hash[chess.name].position.y:
                         print("Error position:", chess.name, chess.position.x, chess.position.y)
 
     def make_record(self, chess, old_x, old_y, x, y):
@@ -385,9 +384,9 @@ class Chessboard(object):
                 self.record += u'进'
             else:
                 self.record += u'退'
-            if type(chess) == Rook or type(chess) == Pawn or\
-               type(chess) == Cannon or type(chess) == King:
-               self.record += RECORD_NOTES[abs(y - old_y)][self.is_red_turn]
+            if type(chess) == Rook or type(chess) == Pawn or \
+                    type(chess) == Cannon or type(chess) == King:
+                self.record += RECORD_NOTES[abs(y - old_y)][self.is_red_turn]
             else:
                 if not self.is_red_turn:
                     self.record += RECORD_NOTES[x + 1][0]
@@ -399,8 +398,8 @@ class Chessboard(object):
             chs = self.chessmans[old_x][j]
             if chs != None and chs.is_red == chess.is_red:
                 if type(chs) == type(chess) and chs != chess:
-                    if (chs.position.y > old_y and not chs.is_red) or\
-                       (chs.position.y < old_y and chs.is_red):
+                    if (chs.position.y > old_y and not chs.is_red) or \
+                            (chs.position.y < old_y and chs.is_red):
                         return (True, u'前')
                     else:
                         return (True, u'后')
@@ -409,7 +408,7 @@ class Chessboard(object):
     def print_record(self):
         print(self.record)
 
-    def save_record(self, filename, head = ''):
+    def save_record(self, filename, head=''):
         with codecs.open(filename, "a", encoding="utf-8") as f:
             if head != '':
                 f.write(head)
@@ -454,17 +453,19 @@ class Chessboard(object):
         fen = self.FENboard()
         foo = fen.split(' ')
         rows = foo[0].split('/')
+
         def swapcase(a):
             if a.isalpha():
                 return a.lower() if a.isupper() else a.upper()
             return a
+
         def swapall(aa):
             return "".join([swapcase(a) for a in aa])
 
         return "/".join([swapall(reversed(row)) for row in reversed(rows)]) \
-            + " " + ('r' if foo[1] == 'b' else 'b') \
-            + " " + foo[2] \
-            + " " + foo[3] + " " + foo[4] + " " + foo[5]
+               + " " + ('r' if foo[1] == 'b' else 'b') \
+               + " " + foo[2] \
+               + " " + foo[3] + " " + foo[4] + " " + foo[5]
 
     def make_single_record(self, old_x, old_y, x, y):
         record = ''
@@ -502,9 +503,9 @@ class Chessboard(object):
                 record += u'进'
             else:
                 record += u'退'
-            if type(chess) == Rook or type(chess) == Pawn or\
-               type(chess) == Cannon or type(chess) == King:
-               record += RECORD_NOTES[abs(y - old_y)][self.is_red_turn]
+            if type(chess) == Rook or type(chess) == Pawn or \
+                    type(chess) == Cannon or type(chess) == King:
+                record += RECORD_NOTES[abs(y - old_y)][self.is_red_turn]
             else:
                 if not self.is_red_turn:
                     record += RECORD_NOTES[x + 1][0]
@@ -548,12 +549,9 @@ class Chessboard(object):
         return (self.winner != None, final_move)
 
 
-
-
 RECORD_NOTES = [
     ['0', '0'], ['1', u'一'], ['2', u'二'],
     ['3', u'三'], ['4', u'四'], ['5', u'五'],
     ['6', u'六'], ['7', u'七'], ['8', u'八'],
     ['9', u'九']
 ]
-
